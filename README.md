@@ -1,4 +1,4 @@
-# snake-game
+# Snake Game
 - Snake Game made in python with opencv and mediapipe.
 - Required python version: 3.7-3.10.
 - Required libraries: cvzone, mediapipe, numpy, opencv, math and random.
