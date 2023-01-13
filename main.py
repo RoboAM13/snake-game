@@ -25,6 +25,7 @@ class SnakeGameClass:
 
         self.score=0
         self.gameOver=False
+        self.highScore=0
 
     def randomFoodLocation(self):
         self.foodPoint=random.randint(100, 1000), random.randint(100, 600)
@@ -32,8 +33,13 @@ class SnakeGameClass:
     def update(self,imgMain,currentHead):
 
         if self.gameOver:
-            cvzone.putTextRect(imgMain,"Game Over",[300, 400],scale=7, thickness=5, offset=20)
-            cvzone.putTextRect(imgMain, f'Your Score: {self.score}',[300, 550],scale=7,thickness=5,offset=20)
+            if game.score > game.highScore:
+                game.highScore = game.score
+            cvzone.putTextRect(imgMain,"Game Over",[300, 200],scale=5, thickness=5, offset=20)
+            cvzone.putTextRect(imgMain, f'Your Score: {self.score}',[300, 350],scale=5,thickness=5,offset=20)
+            cvzone.putTextRect(imgMain, f'High Score: {self.highScore}', [300, 500], scale=5, thickness=5, offset=20)
+
+
         else:
             px, py = self.previousHead
             cx, cy = currentHead
@@ -73,7 +79,8 @@ class SnakeGameClass:
             imgMain = cvzone.overlayPNG(imgMain, self.imgFood,
                                         (rx - self.wFood // 2, ry - self.hFood // 2))
 
-            cvzone.putTextRect(imgMain, f'Score: {self.score}', [50, 80],scale=3, thickness=3, offset=10)
+            cvzone.putTextRect(imgMain, f'Score: {self.score}', [50, 80],scale=2, thickness=2, offset=10)
+            cvzone.putTextRect(imgMain, f'HighScore: {self.highScore}', [50, 120], scale=2, thickness=2, offset=10)
 
             # check for collision
             pts = np.array(self.points[:-2], np.int32)
@@ -109,5 +116,6 @@ while True:
     key = cv2.waitKey(1)
     if key == ord('r'):
         game.gameOver = False
+        game.score = 0
     if key == ord('q'):
         break
